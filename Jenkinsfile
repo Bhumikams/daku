@@ -1,8 +1,8 @@
 pipeline{
   agent any
   environment{
-    DOCKERIMAGE:"bhumi3108/dockhub"
-    DOCKERTAG:"latest"
+    DOCKERIMAGE="bhumi3108/dockhub"
+    DOCKERTAG="latest"
   }
   stages{
     stage('build'){
@@ -24,7 +24,7 @@ pipeline{
     }
     stage('push image'){
       steps{
-        sh 'docker push $DOCKERIMAGE:$DOCKERLATEST'
+        sh 'docker push $DOCKERIMAGE:$DOCKERTAG'
       }
     }
     stage('deploy'){
@@ -32,7 +32,7 @@ pipeline{
         sh '''
         docker stop my-app-container || true
         docker rm my-app-container || true
-        docker run -d -p 5000:5000 --name my-app-container $DOCKERIMAGE:$DOCKERLATEST
+        docker run -d -p 5000:5000 --name my-app-container $DOCKERIMAGE:$DOCKERTAG
         '''
       }
     }
